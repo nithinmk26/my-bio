@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nithin M K</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0d0d;
+      --surface:   #161616;
+      --card:      #1e1e1e;
+      --border:    #2a2a2a;
+      --gold:      #c9a84c;
+      --gold-light:#e2c97e;
+      --text:      #e8e8e8;
+      --muted:     #888;
+      --radius:    14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,13,13,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .nav-brand {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.6rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold-light); }
+
+    /* ── HERO ── */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 2rem 60px;
+      background: radial-gradient(ellipse at 50% 0%, #1e160a 0%, var(--bg) 70%);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 40%, rgba(201,168,76,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .avatar-ring {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      padding: 4px;
+      background: linear-gradient(135deg, var(--gold), #6b4c10, var(--gold-light));
+      box-shadow: 0 0 40px rgba(201,168,76,0.25);
+      margin-bottom: 1.5rem;
+      flex-shrink: 0;
+    }
+    .avatar-ring img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+    .hero-name {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+    .hero-tagline {
+      margin-top: 0.75rem;
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 520px;
+      font-style: italic;
+    }
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+      margin-top: 1.4rem;
+    }
+    .badge {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--gold-light);
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+    }
+    .social-row {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.6rem;
+    }
+    .social-row a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--gold);
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .social-row a:hover {
+      background: var(--gold);
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(201,168,76,0.35);
+    }
+
+    /* ── SECTIONS ── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem 80px;
+    }
+
+    .section { margin-top: 56px; }
+
+    .section-title {
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
+    }
+
+    /* ── ABOUT CARD ── */
+    .about-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.6rem 2rem;
+      color: #bbb;
+      font-size: 0.95rem;
+      line-height: 1.85;
+    }
+
+    /* ── INFO GRID ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .info-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .info-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 16px rgba(201,168,76,0.08);
+    }
+    .info-icon {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      border-radius: 8px;
+      background: rgba(201,168,76,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 1rem;
+    }
+    .info-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.15rem;
+    }
+    .info-value {
+      font-size: 0.9rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ── FAMILY TABLE ── */
+    .family-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .family-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.3rem 1.4rem;
+      transition: border-color 0.2s;
+    }
+    .family-card:hover { border-color: var(--gold); }
+    .family-role {
+      font-size: 0.68rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.35rem;
+    }
+    .family-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .family-detail {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    /* ── ASTRO ── */
+    .astro-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+    .astro-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .astro-card:hover { border-color: var(--gold); }
+    .astro-symbol { font-size: 1.8rem; margin-bottom: 0.4rem; }
+    .astro-label { font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+    .astro-value { font-size: 1rem; font-weight: 600; color: var(--gold-light); margin-top: 0.2rem; }
+
+    /* ── WORK ── */
+    .work-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .work-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: rgba(201,168,76,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .work-title { font-size: 1.05rem; font-weight: 700; color: var(--text); }
+    .work-company { font-size: 0.85rem; color: var(--gold-light); margin-top: 0.1rem; }
+    .work-duration { font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
+
+    /* ── GALLERY ── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .gallery-item {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      aspect-ratio: 4/5;
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+    .gallery-item:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 32px rgba(201,168,76,0.18);
+      border-color: var(--gold);
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── LIGHTBOX ── */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.9);
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    #lightbox.active { display: flex; }
+    #lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 10px;
+      object-fit: contain;
+      box-shadow: 0 0 60px rgba(201,168,76,0.2);
+    }
+    #lightbox-close {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.5rem;
+      font-size: 2rem;
+      color: var(--muted);
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    #lightbox-close:hover { color: var(--gold); }
+
+    /* ── ADDRESS ── */
+    .address-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: #bbb;
+      font-size: 0.95rem;
+    }
+    .address-card .fa { color: var(--gold); font-size: 1.3rem; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 1.8rem 1rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── HAMBURGER ── */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+      z-index: 200;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      nav { padding: 0 1rem; position: relative; height: auto; min-height: 56px; flex-wrap: wrap; }
+      .nav-toggle { display: flex; }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        width: 100%;
+        background: #111;
+        border-top: 1px solid var(--border);
+        padding: 0.5rem 0 1rem;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; }
+      .nav-links a {
+        display: block;
+        padding: 0.65rem 1.4rem;
+        font-size: 0.9rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-links li:last-child a { border-bottom: none; }
+
+      .hero { padding: 48px 1rem 36px; }
+      .avatar-ring { width: 140px; height: 140px; }
+      .hero-tagline { font-size: 0.9rem; }
+
+      .container { padding: 0 1rem 60px; }
+      .section { margin-top: 40px; }
+
+      .about-card { padding: 1.1rem 1.1rem; font-size: 0.9rem; }
+
+      .info-grid { grid-template-columns: 1fr 1fr; }
+      .family-grid { grid-template-columns: 1fr 1fr; }
+      .astro-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+
+      .work-card { flex-direction: column; align-items: flex-start; gap: 0.8rem; padding: 1.2rem; }
+      .address-card { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+    }
+
+    @media (max-width: 400px) {
+      .info-grid { grid-template-columns: 1fr; }
+      .family-grid { grid-template-columns: 1fr; }
+      .astro-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .hero-name { letter-spacing: 1px; }
+      .badge { font-size: 0.72rem; padding: 0.25rem 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand">NMK</span>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about" class="nav-link">About</a></li>
+    <li><a href="#personal" class="nav-link">Personal</a></li>
+    <li><a href="#family" class="nav-link">Family</a></li>
+    <li><a href="#astro" class="nav-link">Astro</a></li>
+    <li><a href="#work" class="nav-link">Work</a></li>
+    <li><a href="#gallery" class="nav-link">Gallery</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="avatar-ring">
+    <img src="resource/DP.JPG" alt="Nithin M K" />
+  </div>
+  <h1 class="hero-name">Nithin M K</h1>
+  <p class="hero-tagline">Driven by curiosity and a passion for learning, always eager to explore new ideas, cultures, and experiences.</p>
+  <div class="hero-badges">
+    <span class="badge">Senior Product Developer</span>
+    <span class="badge">Harman</span>
+    <span class="badge">B.E. Computer Science</span>
+  </div>
+  <div class="social-row">
+    <a href="https://www.linkedin.com/in/nithin-mk26/" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a>
+    <a href="http://instagram.com/nanda.nithin" target="_blank" title="Instagram"><i class="fa fa-instagram"></i></a>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="section-title">About Me</div>
+    <div class="about-card">
+      Dedicated and accomplished professional currently serving as a <strong style="color:var(--gold-light)">Senior Product Developer at Harman</strong>, a renowned technology company. With a Bachelor of Engineering degree, I have cultivated a passion for innovation and problem-solving, driving my success in the dynamic field of technology. Family holds a sacred place in my life, where love and support thrive — with a retired teacher as my father and my mother approaching retirement, and an elder brother who is happily married with a child.
+    </div>
+  </section>
+
+  <!-- PERSONAL DETAILS -->
+  <section class="section" id="personal">
+    <div class="section-title">Personal Details</div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-icon"><i class="fa fa-calendar"></i></div>
+        <div>
+          <div class="info-label">Date of Birth</div>
+          <div class="info-value">26 December 1997</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon"><i class="fa fa-map-marker"></i></div>
+        <div>
+          <div class="info-label">Birth Place</div>
+          <div class="info-value">Birur</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon"><i class="fa fa-clock-o"></i></div>
+        <div>
+          <div class="info-label">Time of Birth</div>
+          <div class="info-value">7:15 PM</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon"><i class="fa fa-graduation-cap"></i></div>
+        <div>
+          <div class="info-label">Education</div>
+          <div class="info-value">B.E. Computer Science</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAMILY -->
+  <section class="section" id="family">
+    <div class="section-title">Family</div>
+    <div class="family-grid">
+      <div class="family-card">
+        <div class="family-role">Father</div>
+        <div class="family-name">Kambesh H N</div>
+        <div class="family-detail">Retired Teacher</div>
+      </div>
+      <div class="family-card">
+        <div class="family-role">Mother</div>
+        <div class="family-name">Dakshayanamma C</div>
+        <div class="family-detail">Teacher (Approaching Retirement)</div>
+      </div>
+      <div class="family-card">
+        <div class="family-role">Brother</div>
+        <div class="family-name">Chethan M K</div>
+        <div class="family-detail">Works at Cognizant</div>
+      </div>
+      <div class="family-card">
+        <div class="family-role">Sister-in-Law</div>
+        <div class="family-name">Kavitha</div>
+        <div class="family-detail">High School Teacher (ICSE)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ASTROLOGICAL -->
+  <section class="section" id="astro">
+    <div class="section-title">Astrological Details</div>
+    <div class="astro-grid">
+      <div class="astro-card">
+        <div class="astro-symbol">♏</div>
+        <div class="astro-label">Rashi</div>
+        <div class="astro-value">Vrishchika</div>
+      </div>
+      <div class="astro-card">
+        <div class="astro-symbol">✦</div>
+        <div class="astro-label">Nakshatra</div>
+        <div class="astro-value">Vishaka</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="section" id="work">
+    <div class="section-title">Professional</div>
+    <div class="work-card">
+      <div class="work-logo"><i class="fa fa-briefcase"></i></div>
+      <div>
+        <div class="work-title">Senior Product Developer</div>
+        <div class="work-company">Harman International</div>
+        <div class="work-duration">Since 2023 &mdash; Currently Working</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADDRESS -->
+  <section class="section">
+    <div class="section-title">Residence</div>
+    <div class="address-card">
+      <i class="fa fa-home"></i>
+      <span>Chethana Nilaya, Rajajinagar, Birur &mdash; Kadur (T), Chickmagaluru (D) &mdash; 577116</span>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="section" id="gallery">
+    <div class="section-title">Gallery</div>
+    <div class="gallery-grid">
+      <div class="gallery-item" onclick="openLightbox('resource/pic1.png')">
+        <img src="resource/pic1.png" alt="Photo 1" loading="lazy" />
+      </div>
+      <div class="gallery-item" onclick="openLightbox('resource/pic2.png')">
+        <img src="resource/pic2.png" alt="Photo 2" loading="lazy" />
+      </div>
+      <div class="gallery-item" onclick="openLightbox('resource/PXL_20251019_110640616.PORTRAIT.jpg')">
+        <img src="resource/PXL_20251019_110640616.PORTRAIT.jpg" alt="Photo 3" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <span id="lightbox-close" onclick="closeLightbox()">&times;</span>
+  <img id="lightbox-img" src="" alt="Full view" />
+</div>
+
+<!-- FOOTER -->
+<footer>
+  &copy; 2026 &nbsp;·&nbsp; Nithin M K &nbsp;·&nbsp; All rights reserved
+</footer>
+
+<script>
+  // Hamburger toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks  = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      navToggle.classList.remove('open');
+      navLinks.classList.remove('open');
+    });
+  });
+
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.getElementById('lightbox-img').src = '';
+    document.body.style.overflow = '';
+  }
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+
+</body>
+</html>
